@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 
 def localPropertiesFile = rootProject.file("local.properties")
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(localPropertiesFile))
+if (localPropertiesFile.exists()) {
+    new FileInputStream(localPropertiesFile).withCloseable { stream -> localProperties.load(stream) }
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -14,7 +15,7 @@ android {
         versionName DEMO_APP_VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en'
-        multiDexEnabled true
+        multiDexEnabled = true
     }
     signingConfigs {
         release
@@ -25,14 +26,15 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //signingConfig signingConfigs.release // Linux
-            resValue 'string', "adUnitId", localProperties['adUnitId']
-            resValue 'string', "adMobApiKey", localProperties['adMobApiKey']
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue 'string', "adUnitId", localProperties.getProperty('adUnitId', '')
+            resValue 'string', "adMobApiKey", localProperties.getProperty('adMobApiKey', '')
         }
         debug {
             minifyEnabled false
             jniDebuggable true
-            resValue 'string', "adUnitId", localProperties['adUnitIdDebug']
-            resValue 'string', "adMobApiKey", localProperties['adMobApiKeyDebug']
+            resValue 'string', "adUnitId", localProperties.getProperty('adUnitIdDebug', 'ca-app-pub-3940256099942544/6300978111')
+            resValue 'string', "adMobApiKey", localProperties.getProperty('adMobApiKeyDebug', 'ca-app-pub-3940256099942544~3347511713')
         }
         profiling {
             initWith debug
@@ -48,7 +50,7 @@ android {
 //            enable = false
 //        }
 //    }
-    namespace 'demo'
+    namespace = 'demo'
 }
 
 dependencies {

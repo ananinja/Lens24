@@ -17,6 +17,7 @@ import lens24.camera.RecognitionUnavailableException;
 import lens24.intent.Card;
 import lens24.intent.ScanCardIntent;
 import lens24.sdk.BuildConfig;
+import androidx.core.view.WindowCompat;
 
 public class ScanCardActivity extends AppCompatActivity implements ScanCardFragment.InteractionListener,
         InitLibraryFragment.InteractionListener {
@@ -26,6 +27,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         if (!BuildConfig.DEBUG) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }

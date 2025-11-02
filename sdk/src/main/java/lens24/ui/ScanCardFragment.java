@@ -41,6 +41,10 @@ import lens24.ndk.RecognitionResult;
 import lens24.sdk.R;
 import lens24.utils.Constants;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import static lens24.ndk.RecognitionConstants.RECOGNIZER_MODE_DATE;
 import static lens24.ndk.RecognitionConstants.RECOGNIZER_MODE_GRAB_CARD_IMAGE;
 import static lens24.ndk.RecognitionConstants.RECOGNIZER_MODE_NAME;
@@ -68,6 +72,17 @@ public class ScanCardFragment extends Fragment {
     private InteractionListener mListener;
 
     private ScanCardRequest mRequest;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+            return windowInsets;
+        });
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
