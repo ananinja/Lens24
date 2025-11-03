@@ -25,6 +25,13 @@ You can easily integrate and customize the SDK into your app by following the in
 
 ### SDK integration
 
+
+To get new .aar make changes in this repository and run this command and use that local .aar in your project
+```
+./gradlew assembleRelease
+```
+
+
 In your `build.gradle`, add maven repository to repositories list
 
 ```
