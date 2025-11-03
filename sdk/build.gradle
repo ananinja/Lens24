@@ -22,8 +22,6 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     ndkVersion "26.3.11579264"
 
-    testBuildType "profiling"
-
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -33,7 +31,6 @@ android {
         externalNativeBuild {
             cmake {
                 abiFilters 'armeabi-v7a', "arm64-v8a", /*"x86",*/ "x86_64"
-                arguments '-DANDROID_STL=c++_shared'
             }
         }
         buildFeatures {
@@ -55,21 +52,10 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            jniDebuggable false
+            minifyEnabled = true
+            jniDebuggable = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             consumerProguardFiles 'proguard-customer.pro'
-        }
-        debug {
-            jniDebuggable true
-        }
-        profiling {
-            initWith debug
-            externalNativeBuild {
-                cmake {
-                    arguments "-DCMAKE_BUILD_TYPE=Release"
-                }
-            }
         }
     }
 
@@ -78,8 +64,8 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    resourcePrefix "lens24_"
-    namespace 'lens24.sdk'
+    resourcePrefix = "lens24_"
+    namespace = 'lens24.sdk'
 }
 
 dependencies {
